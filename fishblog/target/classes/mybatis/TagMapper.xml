@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fishblog.mapper.TagMapper">
+  <resultMap id="BaseResultMap" type="fishblog.pojo.vo.TagVo">
+    <id column="id" jdbcType="BIGINT" property="domain.id" />
+    <result column="name" jdbcType="VARCHAR" property="domain.name" />
+    <result column="state" jdbcType="INTEGER" property="domain.state" />
+    <result column="tagtype_id" jdbcType="INTEGER" property="domain.tagtypeId" />
+    <result column="articleTotalNum" jdbcType="INTEGER" property="domain.articleTotalNum"></result>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+      and state = 0
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, state, articleTotalNum, tagtype_id
+  </sql>
+
+  <select id="selectByExample" parameterType="fishblog.pojo.TagExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_tag
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_tag
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_tag
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="fishblog.pojo.Tag" useGeneratedKeys="true">
+    insert into t_tag (name, state, tagtype_id
+      )
+    values (#{name,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{tagtypeId,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" keyColumn="id" keyProperty="domain.id" parameterType="fishblog.pojo.vo.TagVo" useGeneratedKeys="true">
+    insert into t_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="domain.name != null">
+        name,
+      </if>
+      <if test="domain.state != null">
+        state,
+      </if>
+      <if test="domain.articleTotalNum != null">
+        articleTotalNum,
+      </if>
+      <if test="domain.tagtypeId != null">
+        tagtype_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="domain.name != null">
+        #{domain.name,jdbcType=VARCHAR},
+      </if>
+      <if test="domain.state != null">
+        #{domain.state,jdbcType=INTEGER},
+      </if>
+      <if test="domain.articleTotalNum != null">
+        articleTotalNum,
+      </if>
+      <if test="domain.tagtypeId != null">
+        #{domain.tagtypeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="fishblog.pojo.vo.TagVo">
+    update t_tag
+    <set>
+      <if test="domain.name != null">
+        name = #{domain.name,jdbcType=VARCHAR},
+      </if>
+      <if test="domain.state != null">
+        state = #{domain.state,jdbcType=INTEGER},
+      </if>
+      <if test="domain.articleTotalNum != null">
+        articleTotalNum = #{domain.articleTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="domain.tagtypeId != null">
+        tagtype_id = #{domain.tagtypeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{domain.id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="fishblog.pojo.Tag">
+    update t_tag
+    set name = #{name,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      tagtype_id = #{tagtypeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--批量逻辑删除-->
+  <update id="updateStateByPrimaryKey" parameterType="java.util.List">
+      update t_tag set state = 1 where id IN
+      <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+        #{id,jdbcType=DECIMAL}
+      </foreach>
+  </update>
+
+</mapper>

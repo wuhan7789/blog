@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link href="/css/bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/fishblog/fishblog.css" rel="stylesheet" type="text/css"/>
+		<script src="/js/jquery-1.11.0.min.js"></script>
+		<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		<title>XianYu's blog</title>
+	</head>
+	<body>
+		 <div class="container-fluid">
+			<div class="row clearfix">
+				<div class="col-xs-2 col-lg-2 titles-div">
+				</div>
+				<div class="col-xs-2 col-lg-2 titles">
+					<div class="panel">
+						<b>JavaWeb 开发面试题  基础篇 [二]</b>
+						<p>2017-07-18 09:57 | In <a href="#" style="color: #fff;"><u>Java</u></a> | by wuhan</p>
+					</div>
+					<div id="menu">
+
+					</div>
+				</div>
+				
+				<div class="col-xs-10 col-lg-10">
+					<div class="text-center" style="border-bottom: 1px solid #ccc">
+						<h1>JavaWeb 开发面试题  基础篇 [二]</h1>
+						<p>2017-07-18 09:57&ensp;|&ensp;In <b><u>Java</u></b>&ensp;|&ensp;by wuhan</p>
+					</div>
+					<div class="content">
+						<blockquote>&ensp;&ensp;&ensp;JavaWeb 开发面试题 ，连接池、&和&&的区别 、final, finally, finalize的区别 、Error和Exception有什么区别、给我五个你最常见到的runtime exception、sleep() 和 wait() 有什么区别、Set里的元素是不能重复的，那么用什么方法来区分重复与否呢</blockquote>
+						   <h2><spanyes';font-family:宋体;mso-ascii-font-family:calibri;mso-hansi-font-family:calibri;mso-bidi-font-family:'times new="" roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"=""><font face="宋体">1. 线程池、连接池的作用</font></spanyes';font-family:宋体;mso-ascii-font-family:calibri;mso-hansi-font-family:calibri;mso-bidi-font-family:'times></h2><div><spanyes';font-family:宋体;mso-ascii-font-family:calibri;mso-hansi-font-family:calibri;mso-bidi-font-family:'times new="" roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"=""><font face="宋体"><br></font></spanyes';font-family:宋体;mso-ascii-font-family:calibri;mso-hansi-font-family:calibri;mso-bidi-font-family:'times></div><h4>首先为什么要创建池，因为线程或连接的创建和销毁是非常耗时的，特别是连接操作频繁。为了减轻服务器压力，实现创建多个线程/连接，组成一个池子，用的时候去拿，用完放回池不进行关闭。节约资源、响应时间更快</h4><p><br></p>
+					</div>
+				</div>
+
+			</div>
+		 </div>
+		 <script>
+		 	$(function () {
+                var flag = true;
+                $('.content h2').each(function() {
+                    $(this).attr('id','item' + $(this).text().trim().charAt(0));
+                    var dom = [];
+                    dom.push('<div class="div-tit">');
+                    if(flag){
+                        dom.push('<a href="#item'+$(this).text().trim().charAt(0)+'" class="current">');
+                        flag = false
+                    }else{
+                        dom.push('<a href="#item'+$(this).text().trim().charAt(0)+'" style="font-size: 10px">');
+                    }
+                    dom.push($(this).text().trim());
+                    dom.push('</a></div>');
+                    $('#menu').append(dom.join(''));
+                });
+	            txtBtnFadeIn();
+	            //滚动条发生滚动  
+			    $(window).scroll(function() {
+			        /*在这里做一些事情*/  
+			        var top;
+			        top = $(document).scrollTop();
+			        var menu = $("#menu");  
+			        var items = $("h2[id^=item]");
+			  
+			        var currentId = "";//当前所在的楼层(item) #id  
+			  
+			        items.each(function () {  
+			            var m = $(this);  
+			            var itemTop = m.offset().top;  
+			           /* console.log(itemTop);*/  
+			            if(top > itemTop-200) {  
+			                currentId = '"#'+ m.attr("id")+'"';  
+			            }  
+			            else {  
+			                return false;  
+			            }  
+			        })  
+			        //给相应的楼层a设置class：crrent，取消其他链接的crrent  
+			        var currentLink = menu.find(".current");  
+			        if(currentId && currentLink.attr("href") != currentId){  
+			            currentLink.removeClass("current");  
+			            menu.find('[href='+ currentId + ']').addClass("current");  
+			        }  
+			    })  
+	   	 	});
+	    	var txtBtnFadeIn = function () {
+	            var $txt = $('.titles');
+	            var $txtdiv = $('.titles-div');
+	            var $ali = $('.titles .div-tit');
+	            setTimeout(function () {
+	                var animate_para = { 'margin-left': 0, 'opacity': 1 };
+	                $txtdiv.animate(animate_para, 300 ,function () {});
+	                $txt.animate(animate_para, 300 ,function () {
+	                    $ali.animate(animate_para, 300,function(){
+	                    }); 
+	                });
+	            }, 300);
+	        }
+		 	/*左边目录自适应高度*/
+			total = document.documentElement.clientHeight;
+			$(".titles").height(total);
+		 </script>
+	</body>
+</html>

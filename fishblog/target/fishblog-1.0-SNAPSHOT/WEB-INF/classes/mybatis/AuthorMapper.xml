@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fishblog.mapper.AuthorMapper">
+  <resultMap id="BaseResultMap" type="fishblog.pojo.vo.AuthorVo">
+    <id column="id" jdbcType="INTEGER" property="domain.id" />
+    <result column="name" jdbcType="VARCHAR" property="domain.name" />
+    <result column="account" jdbcType="VARCHAR" property="domain.account" />
+    <result column="password" jdbcType="VARCHAR" property="domain.password" />
+    <result column="email" jdbcType="VARCHAR" property="domain.email" />
+    <result column="remark" jdbcType="VARCHAR" property="domain.remark" />
+    <result column="headImg" jdbcType="VARCHAR" property="domain.headimg" />
+    <result column="articleTotalNum" jdbcType="BIGINT" property="domain.articletotalnum" />
+    <result column="inputTime" jdbcType="TIMESTAMP" property="domain.inputtime" />
+    <result column="recentTime" jdbcType="TIMESTAMP" property="domain.recenttime" />
+    <result column="role_id" jdbcType="INTEGER" property="domain.roleId" />
+    <result column="state" jdbcType="INTEGER" property="domain.state" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, account, password, email, remark, headImg, articleTotalNum, inputTime, 
+    recentTime, role_id, state
+  </sql>
+  <select id="selectByExample" parameterType="fishblog.pojo.AuthorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_author
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_author
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_author
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="fishblog.pojo.Author" useGeneratedKeys="true">
+    insert into t_author (name, account, password, 
+      email, remark, headImg, 
+      articleTotalNum, inputTime, recentTime, 
+      role_id, state)
+    values (#{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{headimg,jdbcType=VARCHAR}, 
+      #{articletotalnum,jdbcType=BIGINT}, #{inputtime,jdbcType=TIMESTAMP}, #{recenttime,jdbcType=TIMESTAMP}, 
+      #{roleId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="fishblog.pojo.Author" useGeneratedKeys="true">
+    insert into t_author
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="headimg != null">
+        headImg,
+      </if>
+      <if test="articletotalnum != null">
+        articleTotalNum,
+      </if>
+      <if test="inputtime != null">
+        inputTime,
+      </if>
+      <if test="recenttime != null">
+        recentTime,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null">
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="articletotalnum != null">
+        #{articletotalnum,jdbcType=BIGINT},
+      </if>
+      <if test="inputtime != null">
+        #{inputtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recenttime != null">
+        #{recenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="fishblog.pojo.Author">
+    update t_author
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null">
+        headImg = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="articletotalnum != null">
+        articleTotalNum = #{articletotalnum,jdbcType=BIGINT},
+      </if>
+      <if test="inputtime != null">
+        inputTime = #{inputtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recenttime != null">
+        recentTime = #{recenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="fishblog.pojo.Author">
+    update t_author
+    set name = #{name,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      headImg = #{headimg,jdbcType=VARCHAR},
+      articleTotalNum = #{articletotalnum,jdbcType=BIGINT},
+      inputTime = #{inputtime,jdbcType=TIMESTAMP},
+      recentTime = #{recenttime,jdbcType=TIMESTAMP},
+      role_id = #{roleId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--批量逻辑删除-->
+  <update id="updateStateByPrimaryKey" parameterType="java.util.List">
+    update t_article set state = 1 where id IN
+    <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+      #{id,jdbcType=DECIMAL}
+    </foreach>
+  </update>
+
+  <!--验证登录-->
+  <select id="getUserByUserName" parameterType="String" resultMap="BaseResultMap">
+      select * from t_author where account = #{_parameter}
+  </select>
+
+</mapper>

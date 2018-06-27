@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link href="/css/bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/fishblog/fishblog.css" rel="stylesheet" type="text/css"/>
+		<script src="/js/jquery-1.11.0.min.js"></script>
+		<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		<title>XianYu's blog</title>
+	</head>
+	<body>
+		 <div class="container-fluid">
+			<div class="row clearfix">
+				<div class="col-xs-2 col-lg-2 titles-div">
+				</div>
+				<div class="col-xs-2 col-lg-2 titles">
+					<div class="panel">
+						<b>测试士大夫士大夫士大夫</b>
+						<p>2017.9.12 | In <a href="#" style="color: #fff;"><u>Java</u></a> | by wuhan</p>
+					</div>
+					<div id="menu">
+
+					</div>
+				</div>
+				
+				<div class="col-xs-10 col-lg-10">
+					<div class="text-center">
+						<h1>测试士大夫士大夫士大夫</h1>
+						<p>2017.9.12 | In Java | by wuhan</p>
+					</div>
+					<div class="content" style="width: 90%; margin: auto;">
+							<p>的告诉对方高大上</p>
+					</div>
+				</div>
+			</div>
+		 </div>
+		 <script>
+		 	$(function () {
+                var flag = true;
+                $('.content h2').each(function() {
+                    $(this).attr('id','item' + $(this).text().trim().charAt(0));
+                    var dom = [];
+                    dom.push('<div class="div-tit">');
+                    if(flag){
+                        dom.push('<a href="#item'+$(this).text().trim().charAt(0)+'" class="current">');
+                        flag = false
+                    }else{
+                        dom.push('<a href="#item'+$(this).text().trim().charAt(0)+'">');
+                    }
+                    dom.push($(this).text().trim());
+                    dom.push('</a></div>');
+                    $('#menu').append(dom.join(''));
+                });
+	            txtBtnFadeIn();
+	            //滚动条发生滚动  
+			    $(window).scroll(function() {
+			        /*在这里做一些事情*/  
+			        var top;
+			        top = $(document).scrollTop();
+			        var menu = $("#menu");  
+			        var items = $("h2[id^=item]");
+			  
+			        var currentId = "";//当前所在的楼层(item) #id  
+			  
+			        items.each(function () {  
+			            var m = $(this);  
+			            var itemTop = m.offset().top;  
+			           /* console.log(itemTop);*/  
+			            if(top > itemTop-200) {  
+			                currentId = '"#'+ m.attr("id")+'"';  
+			            }  
+			            else {  
+			                return false;  
+			            }  
+			        })  
+			        //给相应的楼层a设置class：crrent，取消其他链接的crrent  
+			        var currentLink = menu.find(".current");  
+			        if(currentId && currentLink.attr("href") != currentId){  
+			            currentLink.removeClass("current");  
+			            menu.find('[href='+ currentId + ']').addClass("current");  
+			        }  
+			    })  
+	   	 	});
+	    	var txtBtnFadeIn = function () {
+	            var $txt = $('.titles');
+	            var $txtdiv = $('.titles-div');
+	            var $ali = $('.titles .div-tit');
+	            setTimeout(function () {
+	                var animate_para = { 'margin-left': 0, 'opacity': 1 };
+	                $txtdiv.animate(animate_para, 300 ,function () {});
+	                $txt.animate(animate_para, 300 ,function () {
+	                    $ali.animate(animate_para, 300,function(){
+	                    }); 
+	                });
+	            }, 300);
+	        }
+		 	/*左边目录自适应高度*/
+			total = document.documentElement.clientHeight;
+			$(".titles").height(total);
+		 </script>
+	</body>
+</html>

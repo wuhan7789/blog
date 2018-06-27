@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link href="/css/bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/fishblog/fishblog.css" rel="stylesheet" type="text/css"/>
+		<script src="/js/jquery-1.11.0.min.js"></script>
+		<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		<title>XianYu's blog</title>
+	</head>
+	<body>
+		 <div class="container-fluid">
+			<div class="row clearfix">
+				<div class="col-xs-2 col-lg-2 titles-div">
+				</div>
+				<div class="col-xs-2 col-lg-2 titles">
+					<div class="panel">
+						<b>JavaWeb 开发面试题  数据库篇 [一]</b>
+						<p>2017-09-10 10:35 | In <a href="#" style="color: #fff;"><u>Java</u></a> | by wuhan</p>
+					</div>
+					<div id="menu">
+
+					</div>
+				</div>
+				
+				<div class="col-xs-10 col-lg-10">
+					<div class="text-center" style="border-bottom: 1px solid #ccc">
+						<h1>JavaWeb 开发面试题  数据库篇 [一]</h1>
+						<p>2017-09-10 10:35&ensp;|&ensp;In <b><u>Java</u></b>&ensp;|&ensp;by wuhan</p>
+					</div>
+					<div class="content">
+						<blockquote>&ensp;&ensp;&ensp;JavaWeb 开发面试题，数据库分类和常用数据库、简述数据库设计三范式、事务的基本特征 或 ACID特性、MySql数据库的默认最大连接数是多少、MySql的分页 和 Oracle的分页、数据库触发器的使用场景、数据库存储过程的使用场景、PrepardStatement 和Statement</blockquote>
+						   <h2>1. 数据库分类和常用数据库</h2><pre><h3><code>数据库分为：关系型数据库和非关系型数据库</code><code><br></code><code>          关系型：mysql oracle sqlserver等</code><code><br></code><code>          非关系型：redis,memcache,mogodb,hadoop等</code></h3></pre><h2>2. 简述数据库设计三范式</h2><pre><h3><code>1 . 字段原子性，字段不可拆分。比如 姓名/昵称  不能是一个字段，要拆分成姓名和昵称俩字段。</code><code><br></code><code>2. 每一行数据具有唯一性，通常加一个id字段做为主键</code><code><br></code><code>3. 再满足第一第二范式的情况下，一个表不能包含其他表已存在的字段，要用其他表的id做为外键。反之为反第三范式</code></h3></pre><h2>3. 事务的基本特征 或 ACID特性</h2><pre><h3><code>事务：首先事务是并发控制的单位，是用户定义的操作序列。这些操作要么都做，要么都不做，是一个不可分割的工作单位。</code><code><br></code><code>原子性：事务内的操作要么全部成功，要么全部失败。</code><code><br></code><code>一致性：事务如果失败要对前面的操作进行回滚。</code><code><br></code><code>隔离性：并发事务之间互不影响，事务开始后不能被其他事务干扰</code><code><br></code><code>持久性：事务一旦开始，不能终止。</code></h3></pre><h2>4. MySql数据库的默认最大连接数是多少</h2><pre><h5></h5><h4></h4><h3><code>100</code><code>为什么需要最大连接数？特定服务器上面的数据库只能支持一定数目同时连接，这时候我们一般都会设置最大连接数（最多同时服务多少连接）。在数据库安装时都会有一个默认的最大连接数为100</code></h3></pre><h2>5. MySql的分页 和 Oracle的分页</h2><pre><h3><code>Mysql是使用关键字limit来进行分页的 limit offset,size 表示从多少索引去多少位.</code><code>
+</code><code>Oracle的分页，大部分情况下，我们是记不住了。说思路，要使用三层嵌套查询。</code><code>   Oracle的分页有点儿记不住了，我工作没用过Oracle，只记得一些大概。是使用了三层嵌套查询。如果在工作中使用了，可以到原来的项目中拷贝或上网查询。</code></h3></pre><h2>6. 数据库触发器的使用场景</h2><pre><h3><code>触发器，需要有触发条件，当条件满足以后做什么操作。</code><code><br></code><code>触发器用处还是很多的，比如校内网、开心网、Facebook，你发一个日志，自动通知好友，其实就是在增加日志时做一个后触发，再向通知表中写入条目。因为触发器效率高。而UCH没有用触发器，效率和数据处理能力都很低。</code><code><br></code><code>每插入一个帖子，都希望将版面表中的最后发帖时间，帖子总数字段进行同步更新，用触发器做效率就很高。</code></h3></pre><h2>7. 数据库存储过程的使用场景</h2><pre><h3><code>存储过程一般是复杂的多条SQL语句组合，一般的SQL语句会先编译在执行，存储过程只有在创建的时候才编译，后面执行不需要再编译，而且可以重复使用。使用存储过程会提高数据库的执行速度。</code><code>安全性高</code></h3></pre><h2>8.&nbsp; PrepardStatement 和Statement</h2><pre><h3><code>PreparedStatement是预编译用、预编译的语句传入的任何内容就不会和原来的语句发生任何匹配的关系，他可以防止sql注入，比Statement速度快&nbsp;、安全，Statement不能防止sql注入。</code><code><br></code><code>PreparedStatement代码可读性Statement高。</code></h3></pre><p><br></p><p><br></p>
+					</div>
+				</div>
+
+			</div>
+		 </div>
+		 <script>
+		 	$(function () {
+                var flag = true;
+                $('.content h2').each(function() {
+                    $(this).attr('id','item' + $(this).text().trim().charAt(0));
+                    var dom = [];
+                    dom.push('<div class="div-tit">');
+                    if(flag){
+                        dom.push('<a href="#item'+$(this).text().trim().charAt(0)+'" class="current">');
+                        flag = false
+                    }else{
+                        dom.push('<a href="#item'+$(this).text().trim().charAt(0)+'" style="font-size: 10px">');
+                    }
+                    dom.push($(this).text().trim());
+                    dom.push('</a></div>');
+                    $('#menu').append(dom.join(''));
+                });
+	            txtBtnFadeIn();
+	            //滚动条发生滚动  
+			    $(window).scroll(function() {
+			        /*在这里做一些事情*/  
+			        var top;
+			        top = $(document).scrollTop();
+			        var menu = $("#menu");  
+			        var items = $("h2[id^=item]");
+			  
+			        var currentId = "";//当前所在的楼层(item) #id  
+			  
+			        items.each(function () {  
+			            var m = $(this);  
+			            var itemTop = m.offset().top;  
+			           /* console.log(itemTop);*/  
+			            if(top > itemTop-200) {  
+			                currentId = '"#'+ m.attr("id")+'"';  
+			            }  
+			            else {  
+			                return false;  
+			            }  
+			        })  
+			        //给相应的楼层a设置class：crrent，取消其他链接的crrent  
+			        var currentLink = menu.find(".current");  
+			        if(currentId && currentLink.attr("href") != currentId){  
+			            currentLink.removeClass("current");  
+			            menu.find('[href='+ currentId + ']').addClass("current");  
+			        }  
+			    })  
+	   	 	});
+	    	var txtBtnFadeIn = function () {
+	            var $txt = $('.titles');
+	            var $txtdiv = $('.titles-div');
+	            var $ali = $('.titles .div-tit');
+	            setTimeout(function () {
+	                var animate_para = { 'margin-left': 0, 'opacity': 1 };
+	                $txtdiv.animate(animate_para, 300 ,function () {});
+	                $txt.animate(animate_para, 300 ,function () {
+	                    $ali.animate(animate_para, 300,function(){
+	                    }); 
+	                });
+	            }, 300);
+	        }
+		 	/*左边目录自适应高度*/
+			total = document.documentElement.clientHeight;
+			$(".titles").height(total);
+		 </script>
+	</body>
+</html>

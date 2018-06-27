@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/bootstrap-3.3.7/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/fishblog/fishblog.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/jquery-1.11.0.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-paginator.min.js" type="text/javascript"></script>
+    <script src="/js/blog/author.js" type="text/javascript"></script>
+    <title>XianYu's blog</title>
+</head>
+
+<body>
+    <div class="else_table">
+
+        <div class="row" style="border-bottom: 1px solid #ccc">
+            <div class="col-xs-12 column nav">
+                <div class="navbar-form navbar-left">
+                    <a class="btn btn-primary" id="addModal">添加标签</a>
+                </div>
+                <div class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <label for="author"> 标 签 : </label>
+                        <input id="author" type="text" class="form-control"/>
+                    </div> <a id="search" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="查询"><i class="fa fa-search"></i></a>
+                </div>
+                <div class="navbar-form navbar-right menu">
+                    <a id="update" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="修改"><i class="fa fa-wrench"></i></a>
+                    <a id="delect" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash-o"></i></a>
+                    <a id="refrash" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="刷新"><i class="fa fa-refresh"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 column">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="fuxuan">
+                                </th>
+                                <th>
+                                    编 号
+                                </th>
+                                <th>
+                                    标 签
+                                </th>
+                                <th>
+                                    类 型
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="list">
+                            <!--动态数据-->
+                        </tbody>
+                    </table>
+                </div>
+                <!--分页块-->
+                <div class="row">
+                    <div class="col-xs-2" style="margin-top:25px;">
+                        每页显示<select id="pageSize">
+                        <option value="10" selected="selected">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>条
+                    </div>
+                    <div class="col-xs-3" style="margin-top:25px;">
+                        第 <b><input id="indexPage" style="height: 20px;width: 30px" maxlength="3" onchange="search()" type="number"/></b> 页 <b> / </b> 共 <b id="total"></b> 页
+                    </div>
+                    <div class="col-xs-7 text-center">
+                        <ul id="example"></ul>
+                    </div>
+                </div>
+
+                <!-- 数据 模态框（Modal） -->
+                <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="width: 300px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <form id="modalForm">
+                                    <!--动态表单-->
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button form="modalForm" id="sumbit" type="text" class="btn btn-primary"> 提 交 </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script>
+        /*初始化提示控件*/
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+    </script>
+</body>
+</html>

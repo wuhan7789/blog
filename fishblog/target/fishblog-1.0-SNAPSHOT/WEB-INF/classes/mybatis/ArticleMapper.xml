@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fishblog.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="fishblog.pojo.vo.ArticleVo">
+    <id column="id" jdbcType="BIGINT" property="domain.id" />
+    <result column="title" jdbcType="VARCHAR" property="domain.title" />
+    <result column="inputTime" jdbcType="TIMESTAMP" property="domain.inputtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="domain.updatetime" />
+    <result column="clickNum" jdbcType="BIGINT" property="domain.clicknum" />
+    <result column="author_id" jdbcType="BIGINT" property="domain.authorId" />
+    <result column="article_tag" jdbcType="INTEGER" property="domain.articleTag" />
+    <result column="aState" jdbcType="INTEGER" property="domain.state" />
+    <result column="introduction" jdbcType="VARCHAR" property="domain.introduction"></result>
+
+    <result column="tagName" jdbcType="VARCHAR" property="tag"></result>
+    <result column="authorName" jdbcType="VARCHAR" property="authorName"></result>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="fishblog.pojo.vo.ArticleVo">
+    <result column="content" jdbcType="LONGVARCHAR" property="domain.content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+      and a.state = 0
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    a.id, title, introduction, a.inputTime, updateTime, clickNum, author_id, article_tag, a.state as aState ,t.name as tagName,au.name as authorName
+  </sql>
+  <sql id="Base_Column_List2">
+    id, title, introduction, inputTime, updateTime, clickNum, author_id, article_tag, state
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+
+  <select id="selectByExampleWithBLOBs" parameterType="fishblog.pojo.ArticleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByExample" parameterType="fishblog.pojo.ArticleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_article as a join t_tag as t on a.article_tag = t.id
+    join t_author as au on a.author_id = au.id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List2" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_article
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="fishblog.pojo.Article" useGeneratedKeys="true">
+    insert into t_article (title, inputTime, updateTime, 
+      clickNum, author_id, article_tag, 
+      state, content)
+    values (#{title,jdbcType=VARCHAR}, #{inputtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{clicknum,jdbcType=BIGINT}, #{authorId,jdbcType=BIGINT}, #{articleTag,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" keyColumn="id" parameterType="fishblog.pojo.vo.ArticleVo" keyProperty="domain.id" useGeneratedKeys="true">
+    insert into t_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="domain.title != null">
+        title,
+      </if>
+      <if test="domain.inputtime != null">
+        inputTime,
+      </if>
+      <if test="domain.updatetime != null">
+        updateTime,
+      </if>
+      <if test="domain.clicknum != null">
+        clickNum,
+      </if>
+      <if test="domain.authorId != null">
+        author_id,
+      </if>
+      <if test="domain.articleTag != null">
+        article_tag,
+      </if>
+      <if test="domain.state != null">
+        state,
+      </if>
+      <if test="domain.content != null">
+        content,
+      </if>
+      <if test="domain.introduction != null">
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="domain.title != null">
+        #{domain.title,jdbcType=VARCHAR},
+      </if>
+      <if test="domain.inputtime != null">
+        #{domain.inputtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="domain.updatetime != null">
+        #{domain.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="domain.clicknum != null">
+        #{domain.clicknum,jdbcType=BIGINT},
+      </if>
+      <if test="domain.authorId != null">
+        #{domain.authorId,jdbcType=BIGINT},
+      </if>
+      <if test="domain.articleTag != null">
+        #{domain.articleTag,jdbcType=INTEGER},
+      </if>
+      <if test="domain.state != null">
+        #{domain.state,jdbcType=INTEGER},
+      </if>
+      <if test="domain.content != null">
+        #{domain.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="domain.introduction != null">
+        #{domain.introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="fishblog.pojo.vo.ArticleVo">
+    update t_article
+    <set>
+      <if test="domain.title != null">
+        title = #{domain.title,jdbcType=VARCHAR},
+      </if>
+      <if test="domain.inputtime != null">
+        inputTime = #{domain.inputtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="domain.updatetime != null">
+        updateTime = #{domain.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="domain.clicknum != null">
+        clickNum = #{domain.clicknum,jdbcType=BIGINT},
+      </if>
+      <if test="domain.authorId != null">
+        author_id = #{domain.authorId,jdbcType=BIGINT},
+      </if>
+      <if test="domain.articleTag != null">
+        article_tag = #{domain.articleTag,jdbcType=INTEGER},
+      </if>
+      <if test="domain.state != null">
+        state = #{domain.state,jdbcType=INTEGER},
+      </if>
+      <if test="domain.content != null">
+        content = #{domain.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="domain.introduction != null">
+        introduction = #{domain.introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{domain.id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="fishblog.pojo.Article">
+    update t_article
+    set title = #{title,jdbcType=VARCHAR},
+      inputTime = #{inputtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      clickNum = #{clicknum,jdbcType=BIGINT},
+      author_id = #{authorId,jdbcType=BIGINT},
+      article_tag = #{articleTag,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="fishblog.pojo.Article">
+    update t_article
+    set title = #{title,jdbcType=VARCHAR},
+      inputTime = #{inputtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      clickNum = #{clicknum,jdbcType=BIGINT},
+      author_id = #{authorId,jdbcType=BIGINT},
+      article_tag = #{articleTag,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--批量逻辑删除-->
+  <update id="updateStateByPrimaryKey" parameterType="java.util.List">
+    update t_article set state = 1 where id IN
+    <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+      #{id,jdbcType=DECIMAL}
+    </foreach>
+  </update>
+
+</mapper>
